@@ -1,0 +1,64 @@
+#!/bin/bash
+# Author: Tibor Molnár
+# Date: 23rd of July 2023
+# Description: create a single user account and check for pre-existing account with description
+
+#Note: validate by running
+# grep username /etc/passwd
+
+echo "Please provide a username:"
+read username
+echo
+
+# Check for existing user - validates by checking if username already exist
+grep -q $username /etc/passwd
+if [ $? -eq 0 ]
+	# if the previous command - grep - found the user, then it exited with code 0
+	# that means the user exists
+	# exit code 0 means the command was successful
+	then
+	echo Error -- User $username already exists
+	echo Please choose another username
+	echo
+	# throw exit code 0 to terminate the script
+	exit 0
+fi
+
+
+# Add description
+echo "Please provide user description:"
+read description
+
+# Specify id
+echo "Do you want to specify the user ID (y/n)?"
+read answer
+
+if [ $answer == y ]
+then
+	# Check to see if the ID already exist
+	echo "Please enter UID:"
+	read uid
+	# Check if ID is already in passwd
+	grep -q $uid /etc/passwd
+	# If grep exited with code 0 means it found it, already exist
+	if [ $? -eq 0 ]
+		then
+		echo Error -- UserID $uid already exist
+		echo
+		exit 0
+	else		
+		# need the "" around $description, 
+		#because the string it contains can have spaces
+		useradd $username -c "$description" -u $uid
+		echo $username has been created
+	fi
+
+elif [ $answer == n ]
+	then
+	echo No UID provided, system will assign the UID
+	useradd $username -c "$description"
+	echo
+	echo $username has been created
+fi
+
+echo ---- End of script

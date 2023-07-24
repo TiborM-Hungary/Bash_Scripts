@@ -1,0 +1,46 @@
+#!/bin/bash
+# Author: Tibor Molnár
+# Date: 22nd of July 2023
+# Modified:
+# Description: ping a remote server or servers, multiple cases below
+
+# Ping your home router
+# $? is the exit message of the previous given command
+# if $? is 0, then previous command exited successfully
+ping -c1 192.168.1.0 &> /dev/null
+	if [ $? -eq 0 ]
+	then
+		echo Server is ok and got answer for ping
+	else
+		echo Server is NOT ok and didn\'t receive a reply for the ping
+	fi
+echo -------
+
+#Define variable for the ip
+hosts="192.168.1.1"
+ping -c1 $hosts &> /dev/null
+	if [ $? -eq 0 ]
+	then
+		echo $hosts is ok
+	else
+		echo $hosts is NOT ok
+	fi
+echo ------
+
+#Ping multiple IPs
+IP_LIST="path_to_the_file_that_has_the_IPs_goes_here"
+
+for ip in $(cat $IP_LIST)
+do
+	ping -c1 $ip &> /dev/null
+	if [ $? -eq 0 ]
+	then
+		echo $ip passed
+	else
+		echo $ip ping failed
+	fi
+done
+
+echo ------
+
+

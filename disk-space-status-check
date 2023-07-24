@@ -1,0 +1,21 @@
+#!/bin/bash
+# Author: Tibor Molnár
+# Description: get an alert if disk Use% goes above 50% 
+# Date: 23rd of July 2023
+# Modified: 23rd of July 2023
+
+# Get filesystem usage percentages
+# Run below df command and pipe it into a while loop
+df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $5,$1}' | while read output
+do
+	# Get the usage % - we are echoing out the result and saving it
+	usep=$(echo $output | awk '{print $1}' | cut -d'%' -f1 )
+	# Get the partition name
+	partition=$(echo $output | awk '{print $2}' )
+
+	# If the usage is above 50% then echo out the below information
+	if [ $usep -ge 50 ]
+		then
+		echo "Runing out of space \"$partition ($usep%)\" on $(hostname) as on $(date)"
+	fi
+done

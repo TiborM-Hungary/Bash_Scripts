@@ -1,0 +1,19 @@
+#!/bin/bash
+# Author: Tibor Molnár
+# Date: 23rd of July 2023
+# Description: find and kill processes
+# Modified: 23rd of July 2023
+
+# NOTE: this script requires a dummy process for testing
+# To get a process and the id, open a new terminal and do this:
+# sleep 600
+# ps -ef | grep "sleep 600"
+
+echo 
+echo --- "Killing process:"
+# grep PID
+ps -ef | grep "sleep 600" | grep -v grep | awk '{print $2}' | xargs -I{} echo {}
+# kill process with PID
+ps -ef | grep "sleep 600" | grep -v grep | awk '{print $2}' | xargs -I{} kill {}
+echo
+echo ---- Script ends

@@ -1,0 +1,12 @@
+#!/bin/bash
+# Author: Tibor Molnar
+# Date: 22nd of July 2023
+# Description: read data from file, only Error messages from /var/log/messages
+
+# grep every line that has error in it from file messages
+# then direct the output to a file: error_output_file
+# -i ignore upper-lower case
+grep -i error /home/molnat/Desktop/admin_scripts/messages > /home/molnat/Desktop/admin_scripts/error_output_file
+
+#Note:
+# you can put this script into a cron job or send it to yourself via email

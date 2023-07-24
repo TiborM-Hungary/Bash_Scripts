@@ -1,0 +1,22 @@
+#!/bin/bash
+# Author: Tibor Molnár
+# Date: 23rd of July 2023
+# Description: assign permissions
+# Modified: 23of July 2023
+
+
+# Count the files and give a message to the user how long it will take (1 second per file)
+total=`ls -l molnat* | wc -l`
+echo Assigning the permissions will take $total seconds
+echo ----------
+
+# Assign permission to all file that has molnat in them
+# Takes 1 seconds per file due to sleep 1
+for i in molnat.*
+do
+	echo Assigning a+x permission to file: $i
+	chmod a+x $i
+	sleep 1
+	echo ---------
+done
+

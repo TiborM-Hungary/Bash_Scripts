@@ -1,0 +1,25 @@
+#!/bin/bash
+# Author: Tibor Molnár
+# Date: 23rd of July 2023
+# Description: a script that creates a script with pre-filled data
+# Modified: 23rd of July 2023
+
+read -r -p "Enter name for the script: " script
+read -r -p "What is you fullname: " fname
+read -r -p "what is the description of the script: " description
+
+echo "#!/bin/bash" > /home/molnat/Desktop/admin_scripts/${script}
+echo
+echo "##########################" >> /home/molnat/Desktop/admin_scripts/${script}
+echo
+echo "#Author: " $fname >> /home/molnat/Desktop/admin_scripts/${script}
+echo
+echo "#Date: " $(date) >> /home/molnat/Desktop/admin_scripts/${script}
+echo
+echo "#Description: " $description >> /home/molnat/Desktop/admin_scripts/${script}
+echo
+echo "#Modified: " $(date) >> /home/molnat/Desktop/admin_scripts/${script}
+echo
+echo "#########################" >> /home/molnat/Desktop/admin_scripts/${script}
+chmod a+x ${script}
+vi ${script}

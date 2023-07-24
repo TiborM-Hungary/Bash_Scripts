@@ -1,0 +1,30 @@
+#!/bin/bash
+# Author: Tibor Molnár
+# Date: 23rd of July 2023
+# Description: Backup /etc and /var filesystems
+# Modified: 23rd of July 2023
+
+#NOTE: be careful with the filepath, it expects absolute path when looking for the file
+
+# tar with cvf option, destination file, then the folders to include in the tar file
+tar cvf /tmp/backup.tar /etc /var
+
+# use gzip on the tar file to reduce size
+gzip /tmp/backup.tar
+
+# check if the file was created also check when it was created,
+# I want to use a recent backup, this is why I am checking the time
+# 
+find /tmp/backup.tar.gz -mtime -1 -type f -print &> /dev/null
+
+# if the previous command exited with code 0 (successful) then move it somewhere 
+if [ $? -eq 0 ]
+	then
+	echo Backup was created
+	echo
+	echo Archiving Backup
+	# send the file somewhere to store the backup
+	scp /tmp/backup.tar.gz root@192.168.1.x:/path
+	else
+	echo Backup failed
+fi
